@@ -1,7 +1,7 @@
 host_list = [
   {
     :name => "workstation",
-    :box => "ubuntu/xenial64"
+    :box => "bento/ubuntu-22.04"
   },
   {
     :name => "ansible1",
