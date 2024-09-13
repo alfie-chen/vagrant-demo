@@ -1,9 +1,5 @@
 host_list = [
   {
-    :name => "workstation",
-    :box => "bento/ubuntu-22.04"
-  },
-  {
     :name => "ansible1",
     :box => "bento/ubuntu-22.04"
   },
@@ -20,21 +16,9 @@ host_list = [
 Vagrant.configure("2") do |config|
   host_list.each do |item|
     config.vm.define item[:name] do |host|
-
-      # Choose box dynamically based on provider
-      if ENV['VAGRANT_PROVIDER'] == 'virtualbox'
-        host.vm.box = "spherius/ubuntu-2404-desktop"
-      else
-        host.vm.box = item[:box]
-      end
-
-      host.vm.provider ENV['VAGRANT_PROVIDER'] || "vmware_desktop" do |vm_provider|
-        if vm_provider.to_s == "vmware_desktop"
-          vm_provider.gui = true
-        elsif vm_provider.to_s == "virtualbox"
-          vm_provider.gui = true  # or true, depending on your preference
-          vm_provider.memory = 1024  # Adjust memory or other settings for VirtualBox
-        end
+      host.vm.box = item[:box]
+      host.vm.provider "vmware_desktop" do |vmware|
+        vmware.gui = true
       end
     end
   end
